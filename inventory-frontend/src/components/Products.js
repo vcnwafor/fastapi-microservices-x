@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 
 export const Products = () => {
-    const apiUrl = process.env.BACKEND_API_URL;
+    const apiUrl = process.env.BACKEND_API_URL || "http://localhost:8080/";
     const [products, setProducts] = useState([]);
 
     useEffect(() => {
@@ -12,7 +12,7 @@ export const Products = () => {
             const content = await response.json();
             setProducts(content);
         })();
-    }, []);
+    }, [apiUrl]);
 
     const del = async id => {
         if (window.confirm('Are you sure to delete this record?')) {

@@ -19,7 +19,8 @@ CORS_ALLOW_ORIGINS = os.getenv('CORS_ALLOW_ORIGINS', '*').split(',')
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[CORS_ALLOW_ORIGINS],
+    allow_origins=CORS_ALLOW_ORIGINS,
+    allow_credentials=True,
     allow_methods=['*'],
     allow_headers=['*']
 )

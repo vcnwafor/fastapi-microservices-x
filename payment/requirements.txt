@@ -1,5 +1,7 @@
 fastapi
 redis-om
+redis
 uvicorn
 requests
 python-dotenv
+pydantic

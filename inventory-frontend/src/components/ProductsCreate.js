@@ -7,7 +7,7 @@ export const ProductsCreate = () => {
     const [price, setPrice] = useState('');
     const [quantity, setQuantity] = useState('');
     const navigate = useNavigate();
-    const apiUrl = process.env.BACKEND_API_URL;
+    const apiUrl = process.env.BACKEND_API_URL || "http://localhost:8080/";
     const submit = async e => {
         e.preventDefault();
 

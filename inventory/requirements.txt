@@ -3,3 +3,4 @@ redis-om
 uvicorn
 requests
 python-dotenv
+pydantic

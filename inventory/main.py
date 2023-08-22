@@ -1,7 +1,9 @@
 from fastapi import FastAPI
 from dotenv import load_dotenv
+from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from redis_om import get_redis_connection, HashModel
+from typing import Any
 import os
 
 load_dotenv()
@@ -14,19 +16,14 @@ REDIS_DB = int(os.getenv('REDIS_DB', 0))
 
 CORS_ALLOW_ORIGINS = os.getenv('CORS_ALLOW_ORIGINS', '*').split(',')
 
+print(CORS_ALLOW_ORIGINS)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[CORS_ALLOW_ORIGINS],
-    allow_methods=['*'],
+    allow_origins=CORS_ALLOW_ORIGINS,
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=['*']
 )
-
-# redis = get_redis_connection(
-#     host="redis-11844.c135.eu-central-1-1.ec2.cloud.redislabs.com",
-#     port=11844,
-#     password="pRdcpRkKPFn6UnEFskrDGxrmFbf5T9ER",
-#     decode_responses=True
-# )
 
 redis = get_redis_connection(
     host=REDIS_HOST,
@@ -43,6 +40,11 @@ class Product(HashModel):
 
     class Meta:
         database = redis
+        
+class ProductCreate(BaseModel):
+    name: str
+    price: float
+    quantity: int
 
 
 @app.get('/products')
@@ -62,8 +64,11 @@ def format(pk: str):
 
 
 @app.post('/products')
-def create(product: Product):
-    return product.save()
+def create(product: ProductCreate):
+    print("product found", product)
+    new_product = Product(**product.dict())
+    new_product.save()
+    return new_product
 
 
 @app.get('/products/{pk}')
