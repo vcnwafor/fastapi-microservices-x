@@ -3,20 +3,20 @@ version: "3.7"
 services:
   inventory:
     build: ./inventory
+    env_file:
+      - ./inventory/.env
     ports:
       - "8080:8080"
     command: uvicorn main:app --host 0.0.0.0 --reload
     volumes:
       - ./inventory:/app/
-    environment:
-      CELERY_BROKER_URL: redis://redis:6379/0
-      CELERY_BACKEND: redis://redis:6379/0
-      DATABASE_URI: postgresql://postgres:postgres@inventory_db:5433/inventory_db
     depends_on:
       - inventory_db
       - redis
   inventory-frontend:
     build: ./inventory-frontend
+    env_file:
+      - ./inventory-frontend/.env
     ports:
       - "3000:3000"
     command: npm start
@@ -25,15 +25,13 @@ services:
       - payment
   payment:
     build: ./payment
+    env_file:
+      - ./payment/.env
     ports:
       - "8081:8081"
     command: uvicorn main:app --host 0.0.0.0 --reload
     volumes:
       - ./payment:/app/
-    environment:
-      CELERY_BROKER_URL: redis://redis:6379/0
-      CELERY_BACKEND: redis://redis:6379/0
-      DATABASE_URI: postgresql://postgres:postgres@payment_db:5432/payment_db
     depends_on:
       - payment_db
       - redis

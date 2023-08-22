@@ -3,11 +3,12 @@ import {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 
 export const Products = () => {
+    const apiUrl = process.env.BACKEND_API_URL;
     const [products, setProducts] = useState([]);
 
     useEffect(() => {
         (async () => {
-            const response = await fetch('http://localhost:8000/products');
+            const response = await fetch(`${apiUrl}products`);
             const content = await response.json();
             setProducts(content);
         })();
@@ -15,7 +16,7 @@ export const Products = () => {
 
     const del = async id => {
         if (window.confirm('Are you sure to delete this record?')) {
-            await fetch(`http://localhost:8000/products/${id}`, {
+            await fetch(`${apiUrl}products/${id}`, {
                 method: 'DELETE'
             });
 

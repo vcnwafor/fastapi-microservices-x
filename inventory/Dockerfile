@@ -15,4 +15,11 @@ RUN pip install --upgrade pip
 COPY ./requirements.txt /app/requirements.txt
 
 RUN pip install -r requirements.txt
+
+# Use the environment variables directly in the Dockerfile
+ENV REDIS_HOST $REDIS_HOST
+ENV REDIS_PORT $REDIS_PORT
+ENV DB $DB
+ENV CORS_ALLOWED_ORIGINS $CORS_ALLOWED_ORIGINS
+
 COPY . /app/

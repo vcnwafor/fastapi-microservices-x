@@ -2,3 +2,4 @@ fastapi
 redis-om
 uvicorn
 requests
+python-dotenv

@@ -8,6 +8,9 @@ RUN npm install
 
 COPY . /app/
 
+# Use the environment variables directly in the Dockerfile
+ENV BACKEND_API_URL $BACKEND_API_URL
+
 RUN npm run build
 
 EXPOSE 3000

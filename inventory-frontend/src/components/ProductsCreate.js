@@ -7,11 +7,11 @@ export const ProductsCreate = () => {
     const [price, setPrice] = useState('');
     const [quantity, setQuantity] = useState('');
     const navigate = useNavigate();
-
+    const apiUrl = process.env.BACKEND_API_URL;
     const submit = async e => {
         e.preventDefault();
 
-        await fetch('http://localhost:8000/products', {
+        await fetch(`${apiUrl}products`, {
             method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({
                 name, price, quantity
             })
