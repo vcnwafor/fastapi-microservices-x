@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.responses import JSONResponse
 from dotenv import load_dotenv
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.background import BackgroundTasks
@@ -85,3 +86,10 @@ def order_completed(order: Order):
     order.status = 'completed'
     order.save()
     redis.xadd('order_completed', order.dict(), '*')
+    
+@app.get('/health')
+async def health_check():
+    # Implement your health check logic here
+    
+    # IF everything is healthy, return a 200 OK response
+    return JSONResponse(status_code=200, content={"status": "OK"})

@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from dotenv import load_dotenv
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from redis_om import get_redis_connection, HashModel
@@ -79,3 +80,12 @@ def get(pk: str):
 @app.delete('/products/{pk}')
 def delete(pk: str):
     return Product.delete(pk)
+
+
+@app.get('/health')
+async def health_check():
+    # Implement your health check logic here
+    
+    # IF everything is healthy, return a 200 OK response
+    return JSONResponse(status_code=200, content={"status": "OK"})
+
