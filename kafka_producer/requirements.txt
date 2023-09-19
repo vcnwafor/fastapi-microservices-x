@@ -1,0 +1,4 @@
+fastapi
+concluent-kafka
+dotenv
+uvicorn
